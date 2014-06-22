@@ -3,29 +3,29 @@ FPS="15"
 VIDEO_BITRATE="1500"
 AUDIO_BITRATE="128"
 
-AIRCAM3="rtsp://172.23.1.248/live/ch00_0"
-AIRCAM2="rtsp://172.23.1.246/live/ch00_0"
-AIRCAM1="rtsp://172.23.1.247/live/ch00_0"
+MAIN="rtsp://cam-foh.rocktreff.local/live/ch00_0"
+UPPER="rtsp://cam-links.rocktreff.local/live/ch00_0"
+LOWER="rtsp://cam-rechts.rocktreff.local/live/ch00_0"
 
 # Caps
 AIRCAM_CAPS="video/x-raw-yuv, width=1280, height=720, framerate=$FPS/1"
 AUDIO_CAPS="audio/x-raw-int"
 
 # Sources
-SRC1="rtspsrc location=$AIRCAM1 latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
+SRC1="rtspsrc location=$MAIN latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
 #SRC1="videotestsrc pattern=2"
 
-SRC2="rtspsrc location=$AIRCAM2 latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
+SRC2="rtspsrc location=$UPPER latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
 #SRC2="videotestsrc pattern=2"
 
-SRC3="rtspsrc location=$AIRCAM3 latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
-#oOSRC3="videotestsrc pattern=2"
+SRC3="rtspsrc location=$LOWER latency=0 ! decodebin ! ffmpegcolorspace ! $AIRCAM_CAPS"
+#SRC3="videotestsrc pattern=2"
 
 SRC4="multifilesrc location=\"layer.png\" caps=\"image/png,framerate=$FPS/1\" ! pngdec ! imagefreeze ! ffmpegcolorspace ! video/x-raw-yuv,format=(fourcc)AYUV,framerate=$FPS/1"
 AUDIO="autoaudiosrc ! audioconvert ! $AUDIO_CAPS"
 
 # Justin Kram
-STREAM_KEY="live_" 
+STREAM_KEY="live_"
 RTMP_SERVER_URL="rtmp://live.justin.tv/app"
 JUSTIN="\"$RTMP_SERVER_URL/$STREAM_KEY flashver=FME/2.5\20(compatible;\20FMSc\201.0)\""
 
